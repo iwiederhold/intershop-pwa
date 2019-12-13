@@ -85,11 +85,10 @@
       <div>
         <button
           *ngIf="quote"
-          [routerLink]="'/account/quote-request/' + quote.id"
           type="submit"
           class="btn btn-secondary"
           [disabled]="!quote"
-          (click)="update()"
+          (click)="update(quote)"
           data-testing-id="saveQuoteRequest"
         >
           {{ 'quote.edit.button.save.label' | translate }}

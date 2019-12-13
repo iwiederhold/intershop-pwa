@@ -7,11 +7,13 @@ import { MockComponent } from 'ng-mocks';
 import { EMPTY, of } from 'rxjs';
 import { anything, capture, instance, mock, verify, when } from 'ts-mockito';
 
+import { MessageFacade } from 'ish-core/facades/message.facade';
 import { LineItemListComponent } from 'ish-shared/components/basket/line-item-list/line-item-list.component';
 import { LoadingComponent } from 'ish-shared/components/common/loading/loading.component';
 import { InputComponent } from 'ish-shared/forms/components/input/input.component';
 
 import { QuotingFacade } from '../../../facades/quoting.facade';
+import { QuoteRequest } from '../../../models/quote-request/quote-request.model';
 import { QuoteStateComponent } from '../../quote/quote-state/quote-state.component';
 
 import { ProductAddToQuoteDialogComponent } from './product-add-to-quote-dialog.component';
@@ -21,9 +23,11 @@ describe('Product Add To Quote Dialog Component', () => {
   let fixture: ComponentFixture<ProductAddToQuoteDialogComponent>;
   let element: HTMLElement;
   let quotingFacade: QuotingFacade;
+  let messageFacade: MessageFacade;
 
   beforeEach(async(() => {
     quotingFacade = mock(QuotingFacade);
+    messageFacade = mock(MessageFacade);
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, TranslateModule.forRoot()],
@@ -34,7 +38,11 @@ describe('Product Add To Quote Dialog Component', () => {
         MockComponent(QuoteStateComponent),
         ProductAddToQuoteDialogComponent,
       ],
-      providers: [NgbActiveModal, { provide: QuotingFacade, useFactory: () => instance(quotingFacade) }],
+      providers: [
+        NgbActiveModal,
+        { provide: QuotingFacade, useFactory: () => instance(quotingFacade) },
+        { provide: MessageFacade, useFactory: () => instance(messageFacade) },
+      ],
     }).compileComponents();
   }));
 
@@ -103,7 +111,9 @@ describe('Product Add To Quote Dialog Component', () => {
       component.form.value.displayName = 'DNAME';
       component.form.value.description = 'DESC';
 
-      component.update();
+      component.update({
+        displayName: '0123',
+      } as QuoteRequest);
 
       verify(quotingFacade.updateQuoteRequest(anything())).once();
       const [args] = capture(quotingFacade.updateQuoteRequest).last();

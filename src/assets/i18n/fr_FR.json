@@ -2409,6 +2409,7 @@
   "quote.edit.unsubmitted.seller_comment.label": "Commentaire du vendeur:",
   "quote.edit.submitted.your_quote_request_has_been_submitted.text": "Votre demande de devis a \u00E9t\u00E9 envoy\u00E9 \u00E0\u00A0{{0}}. Vous serez informez sur votre demande de devis par e-mail.",
   "quote.edit.saved.your_quote_request_has_been_saved.text": "Votre demande de devis a \u00E9t\u00E9 enregistr\u00E9.",
+  "quote.edit.saved.your_quote_request_has_been_saved_2.text": "Votre demande de devis {{0}} a \u00E9t\u00E9 enregistr\u00E9.",
   "quote.edit.submitted.your_quote_expired.text": "Votre devis a expir\u00E9 \u00E0 {{0}} {{1}}.",
   "quote.edit.back_to_shopping.link": "Retour au magasin",
   "quote.edit.back_to_quotes.link": "Retour aux devis",

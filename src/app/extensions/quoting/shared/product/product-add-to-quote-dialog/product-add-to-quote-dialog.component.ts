@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilKeyChanged, filter, take, takeUntil } from 'rxjs/operators';
 
+import { MessageFacade } from 'ish-core/facades/message.facade';
 import { LineItemUpdate } from 'ish-core/models/line-item-update/line-item-update.model';
 import { whenTruthy } from 'ish-core/utils/operators';
 
@@ -23,7 +24,11 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject();
 
-  constructor(public ngbActiveModal: NgbActiveModal, private quotingFacade: QuotingFacade) {
+  constructor(
+    public ngbActiveModal: NgbActiveModal,
+    private quotingFacade: QuotingFacade,
+    private messageFacade: MessageFacade
+  ) {
     this.form = new FormGroup({
       displayName: new FormControl(undefined, [Validators.maxLength(255)]),
       description: new FormControl(undefined, []),
@@ -124,7 +129,7 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
   /**
    * Throws updateQuoteRequest and updateItems event if update button was clicked.
    */
-  update() {
+  update(quote: QuoteRequest) {
     if (!this.form) {
       return;
     }
@@ -133,6 +138,14 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
       displayName: this.form.value.displayName,
       description: this.form.value.description,
     });
+
+    this.messageFacade.success({
+      message: 'quote.edit.saved.your_quote_request_has_been_saved_2.text',
+      messageParams: {
+        0: quote.displayName,
+      },
+    });
+
     this.hide();
   }
 
