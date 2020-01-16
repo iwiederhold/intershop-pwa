@@ -88,7 +88,7 @@
           type="submit"
           class="btn btn-secondary"
           [disabled]="!quote"
-          (click)="update(quote)"
+          (click)="update(quote); $event.preventDefault()"
           data-testing-id="saveQuoteRequest"
         >
           {{ 'quote.edit.button.save.label' | translate }}
@@ -99,7 +99,7 @@
           type="submit"
           class="btn btn-primary"
           [disabled]="quote.items.length === 0"
-          (click)="submit()"
+          (click)="submit(); $event.preventDefault()"
           data-testing-id="submitQuoteRequest"
         >
           {{ 'quote.edit.button.submit.label' | translate }}
