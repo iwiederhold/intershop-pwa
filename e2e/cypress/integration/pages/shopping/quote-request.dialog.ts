@@ -3,6 +3,7 @@ export class QuoteRequestDialog {
 
   private saveQuoteRequestButton = () => cy.get('[data-testing-id="saveQuoteRequest"]');
   private submitQuoteRequestButton = () => cy.get('[data-testing-id="submitQuoteRequest"]');
+  private hideButton = () => cy.get('.close');
   private quantityInput = () => cy.get('[data-testing-id="quantity"]');
 
   saveQuoteRequest() {
@@ -15,5 +16,17 @@ export class QuoteRequestDialog {
 
   setQuantity(quantity: number) {
     this.quantityInput().type(quantity.toString());
+  }
+
+  hide() {
+    this.hideButton().click();
+  }
+
+  get productId() {
+    return cy.get('[itemprop="sku"]');
+  }
+
+  get quoteState() {
+    return cy.get('ish-quote-state');
   }
 }

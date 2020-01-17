@@ -3,11 +3,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { MockComponent } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
 import { EMPTY, of } from 'rxjs';
 import { anything, capture, instance, mock, verify, when } from 'ts-mockito';
 
+import { ServerHtmlDirective } from 'ish-core/directives/server-html.directive';
+import { AccountFacade } from 'ish-core/facades/account.facade';
 import { MessageFacade } from 'ish-core/facades/message.facade';
+import { DatePipe } from 'ish-core/pipes/date.pipe';
 import { LineItemListComponent } from 'ish-shared/components/basket/line-item-list/line-item-list.component';
 import { LoadingComponent } from 'ish-shared/components/common/loading/loading.component';
 import { InputComponent } from 'ish-shared/forms/components/input/input.component';
@@ -24,10 +27,12 @@ describe('Product Add To Quote Dialog Component', () => {
   let element: HTMLElement;
   let quotingFacade: QuotingFacade;
   let messageFacade: MessageFacade;
+  let accountFacade: AccountFacade;
 
   beforeEach(async(() => {
     quotingFacade = mock(QuotingFacade);
     messageFacade = mock(MessageFacade);
+    accountFacade = mock(AccountFacade);
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, TranslateModule.forRoot()],
@@ -36,12 +41,15 @@ describe('Product Add To Quote Dialog Component', () => {
         MockComponent(LineItemListComponent),
         MockComponent(LoadingComponent),
         MockComponent(QuoteStateComponent),
+        MockDirective(ServerHtmlDirective),
+        MockPipe(DatePipe),
         ProductAddToQuoteDialogComponent,
       ],
       providers: [
         NgbActiveModal,
         { provide: QuotingFacade, useFactory: () => instance(quotingFacade) },
         { provide: MessageFacade, useFactory: () => instance(messageFacade) },
+        { provide: AccountFacade, useFactory: () => instance(accountFacade) },
       ],
     }).compileComponents();
   }));

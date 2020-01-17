@@ -4,8 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilKeyChanged, filter, take, takeUntil } from 'rxjs/operators';
 
+import { AccountFacade } from 'ish-core/facades/account.facade';
 import { MessageFacade } from 'ish-core/facades/message.facade';
 import { LineItemUpdate } from 'ish-core/models/line-item-update/line-item-update.model';
+import { User } from 'ish-core/models/user/user.model';
 import { whenTruthy } from 'ish-core/utils/operators';
 
 import { QuotingFacade } from '../../../facades/quoting.facade';
@@ -17,8 +19,10 @@ import { QuoteRequest } from '../../../models/quote-request/quote-request.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
+  selectedQuoteRequest$: Observable<QuoteRequest>;
   activeQuoteRequest$: Observable<QuoteRequest>;
   quoteRequestLoading$: Observable<boolean>;
+  user$: Observable<User>;
 
   form: FormGroup;
 
@@ -27,7 +31,8 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
   constructor(
     public ngbActiveModal: NgbActiveModal,
     private quotingFacade: QuotingFacade,
-    private messageFacade: MessageFacade
+    private messageFacade: MessageFacade,
+    private accountFacade: AccountFacade
   ) {
     this.form = new FormGroup({
       displayName: new FormControl(undefined, [Validators.maxLength(255)]),
@@ -36,6 +41,8 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.user$ = this.accountFacade.user$;
+    this.selectedQuoteRequest$ = this.quotingFacade.quoteRequest$;
     this.activeQuoteRequest$ = this.quotingFacade.activeQuoteRequest$;
     this.quoteRequestLoading$ = this.quotingFacade.quoteRequestLoading$;
 
@@ -123,7 +130,6 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
     } else {
       this.quotingFacade.submitQuoteRequest();
     }
-    this.hide();
   }
 
   /**
@@ -154,5 +160,11 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
    */
   hide() {
     this.ngbActiveModal.close();
+  }
+
+  get callbackHideDialogModal() {
+    return () => {
+      this.hide();
+    };
   }
 }

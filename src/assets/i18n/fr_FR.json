@@ -2392,7 +2392,7 @@
   "quote.edit.submitted.heading": "NOUS VOUS REMERCIONS POUR VOTRE DEVIS.",
   "quote.edit.submitted.your_quote_number.text": "Votre num\u00E9ro de devis est\u00A0:",
   "quote.edit.submitted.your_quote_request.text": "Votre demande de devis a \u00E9t\u00E9 envoy\u00E9.",
-  "quote.edit.submitted.you_can_check.text": "Vous pouvez consulter l'\u00E9tat de vos <a href=\"{{0}}\">devis</a> dans la section <a href=\"{{1}}\">Mon compte</a>.",
+  "quote.edit.submitted.you_can_check.text": "Vous pouvez consulter l'\u00E9tat de vos <a callback=\"callbackHideDialogModal\" href=\"{{0}}\">devis</a> dans la section <a callback=\"callbackHideDialogModal\" href=\"{{1}}\">Mon compte</a>.",
   "quote.edit.submitted.we_will_email.text": "Nous vous tiendrons inform\u00E9 par e-mail {{0}} de l'\u00E9tat de votre devis.",
   "quote.edit.unsubmitted.quote_request_details.text": "D\u00E9tails de la demande de devis",
   "quote.edit.responded.quote_details.text": "D\u00E9tails du devis",
