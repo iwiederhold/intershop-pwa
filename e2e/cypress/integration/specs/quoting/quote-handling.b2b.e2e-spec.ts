@@ -49,7 +49,7 @@ describe('Quote Handling', () => {
       page.addProductToQuoteRequest();
     });
     at(QuoteRequestDialog, dialog => {
-      dialog.saveQuoteRequest();
+      dialog.gotoQuoteDetail();
     });
     at(QuoteDetailPage, page => {
       page.totalPrice.should('contain', _.product.price * quantity);
@@ -62,7 +62,7 @@ describe('Quote Handling', () => {
     at(CategoryPage, page => page.gotoSubCategory(_.categoryId));
     at(FamilyPage, page => page.productList.addProductToQuoteRequest(_.product.sku));
     at(QuoteRequestDialog, dialog => {
-      dialog.saveQuoteRequest();
+      dialog.gotoQuoteDetail();
     });
     at(QuoteDetailPage, page => {
       page.totalPrice.should('contain', _.product.price);
@@ -97,9 +97,8 @@ describe('Quote Handling', () => {
     at(FamilyPage, page => page.productList.addProductToQuoteRequest(_.product.sku));
     at(QuoteRequestDialog, dialog => {
       dialog.submitQuoteRequest();
-    });
-    at(QuoteDetailPage, page => {
-      page.quoteState.should('have.text', 'Submitted');
+      dialog.quoteState.should('have.text', 'Submitted');
+      dialog.hide();
     });
   });
 
@@ -109,6 +108,7 @@ describe('Quote Handling', () => {
     at(FamilyPage, page => page.productList.addProductToQuoteRequest(_.product.sku));
     at(QuoteRequestDialog, dialog => {
       dialog.submitQuoteRequest();
+      dialog.gotoQuoteDetail();
     });
     at(QuoteDetailPage, page => {
       page.copyQuoteRequest();

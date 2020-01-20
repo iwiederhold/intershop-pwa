@@ -26,7 +26,9 @@
         </p>
         <p>
           {{ 'quote.edit.submitted.your_quote_number.text' | translate }}
-          <a [routerLink]="['/account/quote-request', quote.id]" (click)="hide()">{{ quote.number }}</a>
+          <a [routerLink]="['/account/quote-request', quote.id]" (click)="hide()" data-testing-id="quoteDetail">{{
+            quote.number
+          }}</a>
         </p>
         <p>
           {{ 'quote.edit.submitted.your_quote_request.text' | translate }} <br />
@@ -49,7 +51,11 @@
             'quote.edit.unsubmitted.quote_no.label' | translate
           }}</label>
           <div class="col-8 col-md-9 col-xl-10">
-            <p class="form-control-plaintext">{{ quote.number }}</p>
+            <p class="form-control-plaintext">
+              <a [routerLink]="['/account/quote-request', quote.id]" (click)="hide()" data-testing-id="quoteDetail">{{
+                quote.number
+              }}</a>
+            </p>
           </div>
         </div>
 
@@ -126,9 +132,8 @@
 
     <div class="modal-footer flex-wrap flex-row-reverse justify-content-between">
       <div>
-        <ng-container *ngIf="quote.state != 'Submitted'">
+        <ng-container *ngIf="quote.state != 'Submitted'; else ALTERNATIVEACTIONS">
           <button
-            *ngIf="quote"
             type="submit"
             class="btn btn-secondary"
             [disabled]="!quote"
@@ -138,7 +143,6 @@
             {{ 'quote.edit.button.save.label' | translate }}
           </button>
           <button
-            *ngIf="quote"
             type="submit"
             class="btn btn-primary"
             [disabled]="quote.items.length === 0"
@@ -148,6 +152,11 @@
             {{ 'quote.edit.button.submit.label' | translate }}
           </button>
         </ng-container>
+        <ng-template #ALTERNATIVEACTIONS>
+          <button class="btn btn-secondary" name="copy" type="submit" (click)="copy()">
+            {{ 'quote.edit.button.create_new_from_quote.label' | translate }}
+          </button>
+        </ng-template>
       </div>
       <div class="d-md-none row form-group md-left">
         <a routerLink="/account/quote-list" (click)="hide()">{{ 'quote.edit.back_to_quotes.link' | translate }}</a>

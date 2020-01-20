@@ -162,6 +162,10 @@ export class ProductAddToQuoteDialogComponent implements OnInit, OnDestroy {
     this.ngbActiveModal.close();
   }
 
+  copy() {
+    this.quotingFacade.copyQuoteRequest(true);
+  }
+
   get callbackHideDialogModal() {
     return () => {
       this.hide();
